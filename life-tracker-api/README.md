@@ -19,9 +19,8 @@ Feel free to change the name of the SQL scripts and update the database name fro
 Then (as long as PostgreSQL is running on your machine) create the db and tables by running:
 
 ```bash
-psql -f student-store.sql
 # or if you renamed your file
-psql -f your-new-file-name.sql
+psql -f life-tracker.sql
 ```
 
 ```bash

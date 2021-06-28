@@ -3,7 +3,13 @@ const cors = require("cors")
 const morgan = require("morgan")
 const { PORT } = require("./config")
 const { NotFoundError } = require("./utils/errors")
+const security = require("./middleware/security")
 const authRoutes = require("./routes/auth")
+const activityFeedRoutes = require("./routes/activity-feed")
+const exerciseRoutes = require("./routes/exercise")
+const nutritionRoutes = require("./routes/nutrition")
+const sleepRoutes = require("./routes/sleep")
+
 
 const app = express()
 
@@ -15,8 +21,16 @@ app.use(cors())
 app.use(express.json())
 // log requests info
 app.use(morgan("tiny"))
+//for every request, check if token exists
+//in authorization header
+//if so, attach decoded user to res.locals
+app.use(security.extractUserFromJwt)
 
 app.use("/auth", authRoutes)
+app.use("/activity-feed", activityFeedRoutes)
+app.use("/exercise", exerciseRoutes)
+app.use("/nutrition", nutritionRoutes)
+app.use("/sleep", sleepRoutes)
 
 /** Handle 404 errors -- this matches everything */
 app.use((req, res, next) => {

@@ -1,27 +1,17 @@
-Next, construct the auth middleware
+Step 4:
 
- Create a new directory called middleware. Inside it create a new file called security.js.
+ In the routes/auth.js file make the following changes:
+   Import the createUserJwt function from the utils/tokens.js file and import the requireAuthenticatedUser middleware
+       function from the middleware/security.js file..
 
- In that file import the jsonwebtoken package, the SECRET_KEY from config, 
-    and the UnauthorizedError.
-    Define a function called jwtFrom
-         It should take in in a request object and checks to see if the request has an authorization
-        header.
-        If it does, extract the token from the header.
-        Authorization headers look like this: "Authorization": "Bearer ${token}".
-        That function should return the token if it exists, otherwise it should return null.
- 
- Next, define a middleware function called extractUserFromJwt
-    The function signature should take in the request, the response, and the next function.
-    Use the jwtFrom function to extract the JWT token from the Authorization header
-    Use the jsonwebtoken package to verify the token and extract the user
-    Attach that user to the response's locals property at res.locals. See more here.
- 
- Finally, create a requireAuthenticatedUser
-    The function signature should take in the request, the response, and the next function.
-    It should check to see if the user exists on res.locals and that the user has an email.
-    If none exists, throw an UnauthorizedError.
-    Export all 3 functions.
- 
- In the server.js file, import the extractUserFromJwt middleware and call app.use with 
-    that middleware BEFORE the other routes are defined.
+   In both the login and register routes, take the user returned by the User model and pass it to the createUserJwt 
+      function to generate a token.
+
+   Add the token to the JSON sent back to the client, along with the user.
+
+   Add a GET request to the routes/auth.js file for the /me endpoint.
+      Add the requireAuthenticatedUser middleware to that route to only allow authenticated users to
+          make requests to it.
+          
+      It should extract the user from res.locals, take their email, and get the user by calling the fetchUserByEmail
+         method on the User model. Make sure to pass it to the makePublicUser method before returning that user to the client.

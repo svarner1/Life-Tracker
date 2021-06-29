@@ -8,7 +8,10 @@ class User {
     return {
       id: user.id,
       email: user.email,
+      //added username, first_name, last_name bc these are columns in my schema
       username: user.username,
+      first_name: user.first_name,
+      last_name: user.last_name,
       isAdmin: user.is_admin,
       createdAt: user.created_at,
     }
@@ -34,7 +37,9 @@ class User {
   }
 
   static async register(credentials) {
-    const requiredFields = ["email", "password", "username", "isAdmin"]
+    //These are all the required fields for registration
+    const requiredFields = ["email", "password", "username", "first_name", "last_name", "isAdmin"]
+
     requiredFields.forEach((property) => {
       if (!credentials.hasOwnProperty(property)) {
         throw new BadRequestError(`Missing ${property} in request body.`)
@@ -50,6 +55,7 @@ class User {
       throw new BadRequestError(`A user already exists with email: ${credentials.email}`)
     }
 
+    //student store pt.2 does not include this
     const existingUserWithUsername = await User.fetchUserByUsername(credentials.username)
     if (existingUserWithUsername) {
       throw new BadRequestError(`A user already exists with username: ${credentials.username}`)
@@ -59,12 +65,14 @@ class User {
     const normalizedEmail = credentials.email.toLowerCase()
 
     const userResult = await db.query(
-      `INSERT INTO users (email, password, username, is_admin)
-       VALUES ($1, $2, $3, $4)
-       RETURNING id, email, username, is_admin, created_at;
+      //added more inserts to the users table
+      `INSERT INTO users (email, password, username, first_name, last_name, is_admin)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       RETURNING id, email, username, first_name, last_name, is_admin, created_at;
       `,
-      [normalizedEmail, hashedPassword, credentials.username, credentials.isAdmin]
+      [normalizedEmail, hashedPassword, credentials.username, credentials.first_name, credentials.last_name, credentials.isAdmin]
     )
+
     const user = userResult.rows[0]
 
     return User.makePublicUser(user)

@@ -1,8 +1,10 @@
-/*
-     Back in the routes/(each category) files, create GET and POST requests at the / endpoint. 
-     The GET request should call the list(Data)ForUser method and the POST request should call the create(entry) method.
-    Add both routes to the server.js file below the auth routes.
-*/
+// Open up the routes/(categoryPage)  file and import the requireAuthenticatedUser middleware
+// Add the middleware to both the GET and POST routes.
+// In each route, extract the user from res.locals and pass them to the list(category data) ForUser and create(entry) 
+//     methods on the (category page) class. Make sure to also pass the order in the create(entry) method
+// The GET route should return JSON where the array of orders is stored on the (logged_category) property
+// The POST route should return JSON where the new order is is stored on the (logged_item *in model*) property
+
 const express = require("express")
 const SleepData = require("../models/sleep")
 const router = express.Router()

@@ -14,6 +14,7 @@ CREATE TABLE exercise_activity (
   exercise_item_id  SERIAL PRIMARY KEY,
   users_id                INTEGER NOT NULL,
   duration          INTEGER NOT NULL,
+  name              TEXT NOT NULL,
   intensity         INTEGER NOT NULL,
   FOREIGN KEY(users_id) REFERENCES users(id)
 );
@@ -27,16 +28,18 @@ CREATE TABLE logged_exercise (
 
 CREATE TABLE sleep_entry (
   sleep_entry_id        SERIAL PRIMARY KEY,
-  users_id                    INTEGER NOT NULL,
-  beginning_date        TIMESTAMP NOT NULL,
-  ending_date           TIMESTAMP NOT NULL,
+  users_id              INTEGER NOT NULL,
+  beginning_date        DATE NOT NULL,
+  ending_date           DATE NOT NULL,
+  beginning_time        TIME NOT NULL,
+  ending_time           TIME NOT NULL,
   duration              INTEGER NOT NULL,    
   FOREIGN KEY (users_id) REFERENCES users(id)       
 );
 
 --   FOREIGN KEY(customer_id) REFERENCES users(id)
 CREATE TABLE logged_sleep (
-  sleep_entry_id        SERIAL PRIMARY KEY,
+  logged_sleep_id        SERIAL PRIMARY KEY,
   users_id                    INTEGER NOT NULL,
   total_duration        INTEGER NOT NULL,
   FOREIGN KEY(users_id) REFERENCES users(id)
@@ -54,7 +57,7 @@ CREATE TABLE nutrition_item (
 );
 
 CREATE TABLE  logged_nutrition (
-  nutrition_entry_id    SERIAL PRIMARY KEY,
+  logged_nutrition_id    SERIAL PRIMARY KEY,
   users_id                    INTEGER NOT NUll,
   calories              INTEGER NOT NULL,
   FOREIGN KEY(users_id) REFERENCES users(id)

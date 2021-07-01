@@ -1,17 +1,8 @@
-Step 4:
+Step 5:
 
- In the routes/auth.js file make the following changes:
-   Import the createUserJwt function from the utils/tokens.js file and import the requireAuthenticatedUser middleware
-       function from the middleware/security.js file..
-
-   In both the login and register routes, take the user returned by the User model and pass it to the createUserJwt 
-      function to generate a token.
-
-   Add the token to the JSON sent back to the client, along with the user.
-
-   Add a GET request to the routes/auth.js file for the /me endpoint.
-      Add the requireAuthenticatedUser middleware to that route to only allow authenticated users to
-          make requests to it.
-          
-      It should extract the user from res.locals, take their email, and get the user by calling the fetchUserByEmail
-         method on the User model. Make sure to pass it to the makePublicUser method before returning that user to the client.
+Open up the routes/(categoryPage)  file and import the requireAuthenticatedUser middleware
+Add the middleware to both the GET and POST routes.
+In each route, extract the user from res.locals and pass them to the list(category data) ForUser and create(entry) 
+    methods on the (category page) class. Make sure to also pass the order in the create(entry) method
+The GET route should return JSON where the array of orders is stored on the (logged_category) property
+The POST route should return JSON where the new order is is stored on the (logged_item *in model*) property

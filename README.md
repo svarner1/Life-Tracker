@@ -27,7 +27,7 @@ Deployed Application: N/A
 - [ ] The detailed activity should contain a form to contain relevant information. (i.e if tracking nutrition this form allows the user to capture calories, timestamp, image, category, etc.) 
 - [ *] The activity tracked should be given a unique id for easy lookup.
   `TODO://` Add link to table schema in the link code below. Your file should end in `.sql` and show your schema for the detailed activities table. (🚫 Remove this paragraph after adding schema link)
-  * [Table Schema](**Add link on github to schema) 
+  * [https://github.com/svarner1/Life-Tracker/blob/master/life-tracker-api/life-tracker-schema.sql](**Add link on github to schema) 
 
 ### Stretch Features
 

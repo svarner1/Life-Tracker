@@ -1,6 +1,7 @@
 const db = require("../db")
 const { BadRequestError, NotFoundError } = require("../utils/errors")
 class ExerciseData {
+    
     static async listExerciseDataForUser(){
        const results = await db.query(
            `
@@ -9,7 +10,8 @@ class ExerciseData {
                    e.intensity AS "Intensity",
                    e.duration AS "Duration",
                    e.users_id AS "UsersID",
-                   u.email AS "UsersEmail"
+                   u.email AS "UsersEmail",
+                   e.created_at AS "Created At"
             FROM exercise_activity AS e
                 JOIN users AS u ON u.id = e.users_id
             ORDER BY exercise_item_id DESC
@@ -19,6 +21,25 @@ class ExerciseData {
     }
 
 
+    // static async listExerciseDataForUser({ user }){
+    //     const results = await db.query(
+    //         `
+    //          SELECT e.exercise_item_id,
+    //                 e.name AS "Exercise Name",
+    //                 e.intensity AS "Intensity",
+    //                 e.duration AS "Duration",
+    //                 e.users_id AS "UsersID",
+    //                 u.email AS "UsersEmail"
+    //          FROM exercise_activity AS e
+    //              JOIN users AS u ON u.id = e.users_id
+    //          WHERE user_id = (SELECT id FROM users WHERE username = $1)
+    //          ORDER BY exercise_item_id DESC
+    //         `,
+    //         [user.username]
+    //     )
+    //     return results.rows
+    //  }
+ 
     static async createExerciseEntry({exerciseEntry, user}){
         //create a new exercise entry
         const requiredFields = ["duration", "intensity", "name"]
@@ -45,7 +66,7 @@ class ExerciseData {
     /*
         ** FIX FETCH ITEM METHOD IF NEEDED
     */
-    static async fetchExerciseEntryById(exerciseEntryId){
+    static async fetchExerciseEntryById({exerciseEntryId}){
         const results = await db.query(
             `
              SELECT e.exercise_item_id,
@@ -53,10 +74,11 @@ class ExerciseData {
                     e.intensity AS "Intensity",
                     e.duration AS "Duration",
                     e.users_id AS "UsersID",
-                    u.email AS "UsersEmail"
+                    u.email AS "UsersEmail",
+                    e.users_id AS "Users id"
              FROM exercise_activity AS e
                  JOIN users AS u ON u.id = e.users_id
-             WHERE e.id = $1
+             WHERE e.exercise_item_id = $1
             `, [exerciseEntryId]
         )
 

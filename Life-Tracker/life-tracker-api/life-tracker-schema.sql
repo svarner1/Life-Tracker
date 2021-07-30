@@ -16,6 +16,7 @@ CREATE TABLE exercise_activity (
   duration          INTEGER NOT NULL,
   name              TEXT NOT NULL,
   intensity         INTEGER NOT NULL,
+  created_at        DATE DEFAULT CURRENT_DATE,
   FOREIGN KEY(users_id) REFERENCES users(id)
 );
 
@@ -27,7 +28,8 @@ CREATE TABLE sleep_entry (
   ending_date           DATE NOT NULL,
   beginning_time        TIME NOT NULL,
   ending_time           TIME NOT NULL,
-  duration              INTEGER NOT NULL,    
+  duration              INTEGER NOT NULL, 
+  created_at            DATE DEFAULT CURRENT_DATE,
   FOREIGN KEY (users_id) REFERENCES users(id)       
 );
 
@@ -40,6 +42,7 @@ CREATE TABLE nutrition_item (
   quantity              INTEGER NOT NULL,
   calories              INTEGER NOT NULL,
   image                 TEXT NOT NULL,
+  created_at            DATE DEFAULT CURRENT_DATE,
   FOREIGN KEY (users_id) REFERENCES users(id)
 );
 

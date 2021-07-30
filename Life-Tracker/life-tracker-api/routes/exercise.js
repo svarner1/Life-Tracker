@@ -14,7 +14,7 @@ router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
   try {
     const { user } = res.locals
     console.log( user )
-    const exerciseEntry = await ExerciseData.createExerciseEntry({user, exerciseEntry: req.body})
+    const exerciseEntry = await ExerciseData.createExerciseEntry({exerciseEntry: req.body, user})
     return res.status(201).json({ exerciseEntry })
   } catch (err) {
     next(err)
@@ -23,6 +23,8 @@ router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
+    const { user } = res.locals
+    console.log("current user", user)
     const listedExerciseData = await ExerciseData.listExerciseDataForUser()
     return res.status(200).json({ listedExerciseData })
   } catch (err) {
@@ -30,11 +32,24 @@ router.get("/", async (req, res, next) => {
   }
 })
 
+// router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
+//   try {
+//     const { user } = res.locals
+//     console.log("LOOK HERE", user);
+//     const listedExerciseData = await ExerciseData.listExerciseDataForUser({user})
+//     return res.status(200).json({ listedExerciseData })
+//   } catch (err) {
+//     next(err)
+//   }
+// })
+
 router.get("/:exerciseEntryId", async (req, res, next) => {
   try {
     //fetch a single exercise entry
     const { exerciseEntryId } = req.params
-    const exerciseEntry = await exerciseEntry.fetchNutritionEntryById(exerciseEntryId)
+    console.log("Exercise Entry Id", exerciseEntryId)
+    const exerciseEntry = await ExerciseData.fetchExerciseEntryById({exerciseEntryId} )
+    console.log("Exercise entry", exerciseEntry)
     return res.status(200).json({ exerciseEntry })
   } catch(err) {
     next(err)
